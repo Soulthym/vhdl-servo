@@ -1,11 +1,13 @@
 #!/bin/bash
+project="servo"
 ghdl --clean
 
-ghdl -a servo.vhd
-ghdl -e servo
+ghdl -a $project.vhd 
+ghdl -a tb_$project.vhd 
 
-ghdl -a servotb.vhd
-ghdl -e servotb
-ghdl -r servotb --vcd=out.gtk
+ghdl -c -e tb_$project
+ghdl -c -r tb_$project --wave=tb_$project.ghw
 
-gtkwave out.gtk
+gtkwave tb_$project.ghw
+
+rm tb_$project.ghw work-obj93.cf

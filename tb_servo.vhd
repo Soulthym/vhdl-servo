@@ -1,13 +1,13 @@
 -- Banc de test pourl'exercice sur les machines à état
 
-entity SERVOTB is
+entity TB_SERVO is
 	port( OK: out BOOLEAN := TRUE);
 end entity;
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 
-architecture A1 of SERVOTB is
+architecture A1 of TB_SERVO is
 	signal clk, rst: STD_LOGIC := '0';
 	signal pos : std_logic_vector(7 downto 0);
 	signal gpio : STD_LOGIC;

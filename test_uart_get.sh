@@ -1,9 +1,13 @@
-#for file in $(ls *.vhd); do
-#    ghdl -a uart_get.vhd 
-#done
-ghdl -a uart_get.vhd 
-ghdl -a tb_uart_get.vhd 
+#!/bin/bash
+project="uart_get"
+ghdl --clean
 
-ghdl -c -e tb_uart_get
-ghdl -c -r tb_uart_get --wave=tb_uart_get.ghw
-gtkwave tb_uart_get.ghw
+ghdl -a $project.vhd 
+ghdl -a tb_$project.vhd 
+
+ghdl -c -e tb_$project
+ghdl -c -r tb_$project --wave=tb_$project.ghw
+
+gtkwave tb_$project.ghw
+
+rm tb_$project.ghw work-obj93.cf
