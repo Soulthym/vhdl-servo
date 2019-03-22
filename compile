@@ -1,9 +1,0 @@
-#for file in $(ls *.vhd); do
-#    ghdl -a $1.vhd 
-#done
-ghdl -a $1.vhd 
-ghdl -a tb_$1.vhd 
-
-ghdl -c -e tb_$1
-ghdl -c -r tb_$1 --wave=tb_$1.ghw
-gtkwave tb_$1.ghw

@@ -30,7 +30,7 @@ CLK <= '0' when Done else not CLK after Period / 2;
 RST <= '1', '0' after Period;
 
 UUT : entity work.uart_get
-generic map ( NClkPerBit => 100)
+generic map ( NClkPerBit => 10)
 port map ( CLK      => CLK,
            RST      => RST,
            SerialIn => SerialIn,
@@ -39,30 +39,31 @@ port map ( CLK      => CLK,
 
 -- Control Simulation and check outputs
 process begin
+    SerialIn <= 'U'; --start bit
     Rst <= '1';
     wait for 1 us;
     Rst <= '0';
-    wait for 100 us;
+    wait for 10 us;
 
     SerialIn <= '0'; --start bit
-    wait for 100 us;
+    wait for 10 us;
 
     SerialIn <= '1';
-    wait for 100 us;
+    wait for 10 us;
     SerialIn <= '0';
-    wait for 100 us;
+    wait for 10 us;
     SerialIn <= '1';
-    wait for 100 us;
+    wait for 10 us;
     SerialIn <= '0';
-    wait for 100 us;
+    wait for 10 us;
     SerialIn <= '0';
-    wait for 100 us;
+    wait for 10 us;
     SerialIn <= '1';
-    wait for 100 us;
+    wait for 10 us;
     SerialIn <= '0';
-    wait for 100 us;
+    wait for 10 us;
     SerialIn <= '1';
-    wait for 100 us;
+    wait for 10 us;
 
     SerialIn <= '1';
     wait for 100 us;
