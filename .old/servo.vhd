@@ -14,7 +14,7 @@ end entity;
 
 architecture SERVO_CONTROL of SERVO is
 signal count : std_logic_vector(7 downto 0); ---1 ms count---
-signal total : integer range 0 to (18*(bit_count-1)):= 0;
+signal total : integer range 0 to (18*(255-1)):= 0;
 signal servo_clk : std_logic;
 signal servo_count : INTEGER range 0 to bit_count-1 := 0;
 
@@ -53,7 +53,7 @@ begin
 			case state_counter is
 
 			when Idle =>	---- idle mode : no signal ---
-				if total < (18*(bit_count-1)) then
+				if total < (18*(255-1)) then
 					total <= total+1;
 				else
 					total <= 0;
