@@ -42,9 +42,12 @@ begin
 	wait;
   
   end process;
-  UUT: entity work.SERVO(servo_control) port map (	servo_clk =>clk,
-					reset => rst, 
-					position => pos,
-					gpio_clk_out => gpio);
+  UUT: entity work.SERVO(servo_control)
+  	generic map ( bit_count => 255)
+  	port map (	
+  			Clk => clk,
+			reset => rst, 
+			position => pos,
+			gpio_clk_out => gpio
+		) ;
 end;
-
