@@ -15,35 +15,35 @@ architecture A1 of TB_SERVO is
 begin
 
   process
-  begin
-    while Now < 1024 nS loop
+   begin
+    while Now < 50 mS loop
       clk <= '0';
-      wait for 255 nS;
+      wait for 2 nS;
       clk <= '1';
-      wait for 255 nS;
+      wait for 2 nS;
     end loop;
     wait;
   end process;
 
   process
-  begin
+   begin
  	rst <= '1';
-	pos <= "00000000";
-	wait for 255 nS;
-	
-	rst <= '0';
-	wait for 255 uS;
+	wait for 10 mS;
 
+	rst <= '0';
+	pos <= "00000000";
+	wait for 10 mS;
+	
 	pos <= "00001111";
-	wait for 255 uS;
+	wait for 10 mS;
 	
 	pos <= "11111111";
-	wait for 255 uS;
+	wait for 10 mS;
 	wait;
   
   end process;
   UUT: entity work.SERVO(servo_control)
-  	generic map ( bit_count => 255)
+  	generic map ( bit_count => 255 )
   	port map (	
   			Clk => clk,
 			reset => rst, 
