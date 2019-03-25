@@ -16,11 +16,11 @@ begin
 
   process
   begin
-    while Now < 140 US loop
+    while Now < 1024 nS loop
       clk <= '0';
-      wait for 4 nS;
+      wait for 255 nS;
       clk <= '1';
-      wait for 4 nS;
+      wait for 255 nS;
     end loop;
     wait;
   end process;
@@ -29,16 +29,16 @@ begin
   begin
  	rst <= '1';
 	pos <= "00000000";
-	wait for 10 nS;
+	wait for 255 nS;
 	
 	rst <= '0';
-	wait for 40 uS;
+	wait for 255 uS;
 
 	pos <= "00001111";
-	wait for 40 uS;
+	wait for 255 uS;
 	
 	pos <= "11111111";
-	wait for 40 uS;
+	wait for 255 uS;
 	wait;
   
   end process;

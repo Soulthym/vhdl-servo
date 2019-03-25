@@ -24,6 +24,7 @@ signal state_counter : state_machine_counter;
 begin
 
 process(Clk, reset)
+begin
 --- clock divider-----
 	if reset = '1' then
 		state_counter <= Idle;
@@ -65,7 +66,7 @@ begin
 					count <= std_logic_vector(unsigned(count) +1);
 				end if;
 				gpio_clk_out <= '1';
-			when Added =>	---- angle control pulse ----
+			when Added =>	---- servo angle control pulse ----
 				if count = position then
 					count <= "00000000";
 					state_counter <= Idle;
