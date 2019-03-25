@@ -20,8 +20,6 @@ architecture rtl of uart_get is
     type States is (SIdle, SReadStart, SReadData,
                      SReadStop);
     signal State : States := SIdle;
-
-    signal ReadDataR : std_logic := '0';
     signal ReadData : std_logic := '0';
 
     signal ClkCnt : integer range 0 to NClkPerBit-1 := 0;
@@ -30,77 +28,58 @@ architecture rtl of uart_get is
 
 begin
 
-    pSAMPLE : process (Clk)
-    begin
-        if rising_edge(Clk) then
-            ReadDataR <= SerialIn;
-            ReadData  <= ReadDataR;
-        end if;
-    end process pSAMPLE;
-
     puart_get : process (Clk)
     begin
         if rising_edge(Clk) then
             if Rst = '1' then
                 State <= SIdle;
-            end if;
-            case State is
-                when SIdle =>
-                    ClkCnt <= 0;
-                    BitIdx <= 0;
-
-                    if ReadData = '0' then       
-                        State <= SReadStart;
-                    else
-                        State <= SIdle;
-                    end if;
-
-                when SReadStart =>
-                    if ClkCnt = (NClkPerBit-1)/2 then
-                        if ReadData = '0' then
-                            ClkCnt <= 0; 
-                            State   <= SReadData;
-                        else
-                            State   <= SIdle;
-                        end if;
-                    else
-                        ClkCnt <= ClkCnt + 1;
-                        State  <= SReadStart;
-                    end if;
-
-                when SReadData =>
-                    if ClkCnt < NClkPerBit-1 then
-                        ClkCnt <= ClkCnt + 1;
-                        State  <= SReadData;
-                    else
-                        ClkCnt            <= 0;
-                        sReadByte(BitIdx) <= ReadData;
-
-                        if BitIdx < 7 then
-                            BitIdx <= BitIdx + 1;
-                            State  <= SReadData;
-                        else
-                            BitIdx <= 0;
-                            State  <= SReadStop;
-                        end if;
-                    end if;
-
-                when SReadStop =>
-                    if ClkCnt < NClkPerBit-1 then
-                        ClkCnt <= ClkCnt + 1;
-                        State   <= SReadStop;
-                    else
+            else
+                case State is
+                    when SIdle =>
                         ClkCnt <= 0;
-                        State   <= SIdle;
-                    end if;
+                        BitIdx <= 0;
+                        if SerialIn = '0' then
+                            State <= SReadStart;
+                        end if;
+                    when SReadStart =>
+                        if ClkCnt = (NClkPerBit-1)/2 then
+                            if SerialIn = '0' then
+                                ClkCnt <= 0;
+                                BitIdx <= 0;
+                                State <= SReadData;
+                            end if;
+                        else
+                            ClkCnt <= ClkCnt + 1;
+                        end if;
 
-                when others =>
-                    State <= SIdle;
+                    when SReadData =>
+                        if ClkCnt < NClkPerBit-1 then
+                            ClkCnt <= ClkCnt + 1;
+                        else
+                            ClkCnt <= 0;
+                            sReadByte(BitIdx) <= SerialIn;
+                            if BitIdx < 7 then
+                                BitIdx <= BitIdx +1;
+                            else
+                                BitIdx <= 0;
+                                State <= SReadStop;
+                            end if;
+                        end if;
 
-            end case;
+                    when SReadStop =>
+                        if ClkCnt < NClkPerBit-1 then
+                            ClkCnt <= ClkCnt +1;
+                        else
+                            ClkCnt <= 0;
+                            State <= SIdle;
+                        end if;
+
+                    when others =>
+                        State <= SIdle;
+                end case;
+            end if;
         end if;
     end process puart_get;
-
     ReadByte <= sReadByte;
 
 end rtl;
