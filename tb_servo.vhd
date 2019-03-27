@@ -1,3 +1,5 @@
+-- Banc de test pourl'exercice sur les machines à état
+
 entity TB_SERVO is
     port( OK: out BOOLEAN := TRUE);
 end entity;

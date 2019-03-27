@@ -6,9 +6,9 @@ entity SERVO is
     generic ( clkcnt : integer := 255 );    --- divide sys clock into 1/255 ms clock
     port (    
         clk : in STD_LOGIC;
-        rst: in STD_LOGIC;
+        rst : in STD_LOGIC;
         pos : in STD_lOGIC_VECTOR(7 downto 0);
-        gpio : out STD_LOGIC
+        gpio: out STD_LOGIC
     );
 end entity;
 
@@ -22,13 +22,12 @@ begin
     process(clk, rst)
     begin
     --- servo signal generato ----
-        if rst = '1' then
-            gpio <= '0';
-            cnt <= 0;
-            servo_clk <= '0';
-        end if;
         if rising_edge(clk) then
-            if servo_cnt < clkcnt then
+            if rst = '1' then
+                gpio <= '0';
+                cnt <= 0;
+                servo_clk <= '0';
+            elsif servo_cnt < clkcnt then
                 servo_clk <= '0';
                 servo_cnt <= servo_cnt + 1;
             else
