@@ -21,7 +21,9 @@ begin
 
     process(clk, rst)
     begin
-    --- servo signal generato ----
+        -- servo_clk <= servo_clk;
+        -- servo_cnt <= servo_cnt;
+        -- cnt <= cnt;
         if rising_edge(clk) then
             if rst = '1' then
                 gpio <= '0';

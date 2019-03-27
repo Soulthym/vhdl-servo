@@ -13,40 +13,39 @@ architecture A1 of TB_SERVO is
     signal gpio : STD_LOGIC;
 begin
 
-  process
-   begin
-    while Now < 50 mS loop
-      clk <= '0';
-      wait for 2 nS;
-      clk <= '1';
-      wait for 2 nS;
-    end loop;
-    wait;
-  end process;
+    process
+    begin
+        while Now < 100 mS loop -- 50Mhz Clock
+            clk <= '0';
+            wait for 10 nS;
+            clk <= '1';
+            wait for 10 nS;
+        end loop;
+        wait;
+    end process;
 
-  process
-   begin
-     rst <= '1';
-    wait for 10 mS;
-
-    rst <= '0';
-    pos <= "00000000";
-    wait for 10 mS;
+    process
+    begin
+        rst <= '1';
+        wait for 100 nS;
+        rst <= '0';
+        pos <= "00000000";
+        wait for 20 mS;
     
-    pos <= "00001111";
-    wait for 10 mS;
+        pos <= "00001111";
+        wait for 20 mS;
     
-    pos <= "11111111";
-    wait for 10 mS;
-    wait;
+        pos <= "11111111";
+        wait for 20 mS;
+        wait;
   
-  end process;
-  UUT: entity work.SERVO(servo_control)
-      generic map ( clkcnt => 2 )
-      port map (    
+    end process;
+    UUT: entity work.SERVO(servo_control)
+        generic map ( clkcnt => 195 )
+        port map (    
               Clk => clk,
-            rst => rst, 
-            pos => pos,
-            gpio => gpio
-        ) ;
+              rst => rst, 
+              pos => pos,
+              gpio => gpio
+        );
 end;

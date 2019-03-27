@@ -25,6 +25,6 @@ BEGIN
 	data(7) <= SW(7);
 
 SERVO: entity work.servo 
-	generic map(clkcnt => 3906)
+	generic map(clkcnt => 195)
 	port map(CLK => clk, RST => rst, pos => data, gpio => DataServo);
 END architecture;
